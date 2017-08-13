@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 public class PerfilController : MonoBehaviour {
 
 	public Text txtNome;
+	public Text txtEmail;
 	public GameObject imgUsuario;
 
 	void Awake(){
@@ -38,7 +39,8 @@ public class PerfilController : MonoBehaviour {
 	void getInformations(bool isLoggedIn){
 		if (isLoggedIn) {
 			FB.API ("me?fields=name", HttpMethod.GET, DisplayUsername);
-			FB.API ("me/picture?square&height=128&width=128", HttpMethod.GET, DisplayPicture);
+			FB.API ("me?fields=email", HttpMethod.GET, DisplayEmail);
+			FB.API ("me/picture?square&height=150&width=150", HttpMethod.GET, DisplayPicture);
 		} else {
 			Debug.LogError ("Erro ao pegar nome do usuário");
 		}
@@ -48,6 +50,10 @@ public class PerfilController : MonoBehaviour {
 		Debug.Log (AccessToken.CurrentAccessToken);
 		Debug.Log (result.ResultDictionary["name"]);
 		txtNome.text = ""+ result.ResultDictionary ["name"];
+	}
+
+	void DisplayEmail(IResult result){
+		txtEmail.text = ""+ result.ResultDictionary ["email"];
 	}
 
 	void DisplayPicture(IGraphResult result){
