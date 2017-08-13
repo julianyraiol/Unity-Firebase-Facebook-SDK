@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Facebook.Unity;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class FacebookController : MonoBehaviour {
-
+public class ConexaoFacebook : MonoBehaviour {
+	
 	void Awake(){
-		
 		FB.Init (SetInit, OnHideUnity);
 	}
 
@@ -30,7 +30,7 @@ public class FacebookController : MonoBehaviour {
 
 	public void FBLogin(){
 		List<string> permissions = new List<string> ();
-		permissions.Add ("public_profile ");
+		permissions.Add ("public_profile");
 		FB.LogInWithReadPermissions (permissions, AuthCallBack);
 	}
 
@@ -47,18 +47,5 @@ public class FacebookController : MonoBehaviour {
 				Debug.Log ("FB n esta conectado");
 			}
 		}
-		getInformations(FB.IsLoggedIn);
-
-	}
-
-	void getInformations(bool isLoggedIn){
-		if (isLoggedIn) {
-			FB.API ("me?fields=name", HttpMethod.GET, DisplayUsername);
-		}
-	}
-
-	void DisplayUsername(IResult result){
-		Debug.Log (AccessToken.CurrentAccessToken);
-		Debug.Log (result.ResultDictionary["name"]);
 	}
 }
